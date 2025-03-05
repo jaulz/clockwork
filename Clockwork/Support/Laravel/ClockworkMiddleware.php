@@ -33,6 +33,10 @@ class ClockworkMiddleware
 	// Record the current request after a response is sent
 	public function terminate()
 	{
-		$this->app['clockwork.support']->recordRequest();
+		try {
+			$this->app['clockwork.support']->recordRequest();
+		} catch (\Exception $e) {
+			$this->app[ExceptionHandler::class]->report($e);
+		}
 	}
 }
